@@ -19,14 +19,12 @@ export function ThemeToggle() {
   const effectiveResolvedMode = isMounted ? resolvedMode : "light";
 
   return (
-    <div className="flex items-center gap-2 rounded-full border border-border-subtle bg-bg-elevated/80 p-1 text-xs">
+    <div className="border-line bg-elev flex items-center gap-2 rounded-full border p-1 text-xs">
       <button
         type="button"
         onClick={() => setMode("light")}
         className={`rounded-full px-3 py-1 transition-colors ${
-          effectiveMode === "light"
-            ? "bg-accent-cyan text-bg-canvas"
-            : "text-text-muted hover:text-text-primary"
+          effectiveMode === "light" ? "bg-brand text-bg" : "text-ink-3 hover:text-ink"
         }`}
       >
         Light
@@ -35,9 +33,7 @@ export function ThemeToggle() {
         type="button"
         onClick={() => setMode("dark")}
         className={`rounded-full px-3 py-1 transition-colors ${
-          effectiveMode === "dark"
-            ? "bg-accent-cyan text-bg-canvas"
-            : "text-text-muted hover:text-text-primary"
+          effectiveMode === "dark" ? "bg-brand text-bg" : "text-ink-3 hover:text-ink"
         }`}
       >
         Dark
@@ -46,9 +42,7 @@ export function ThemeToggle() {
         type="button"
         onClick={() => setMode("system")}
         className={`rounded-full px-3 py-1 transition-colors ${
-          effectiveMode === "system"
-            ? "bg-accent-cyan text-bg-canvas"
-            : "text-text-muted hover:text-text-primary"
+          effectiveMode === "system" ? "bg-brand text-bg" : "text-ink-3 hover:text-ink"
         }`}
       >
         System
@@ -56,7 +50,7 @@ export function ThemeToggle() {
       <button
         type="button"
         onClick={toggleMode}
-        className="rounded-full border border-border-subtle px-3 py-1 text-text-muted transition-colors hover:text-text-primary"
+        className="border-line text-ink-3 hover:text-ink rounded-full border px-3 py-1 transition-colors"
       >
         Toggle ({effectiveResolvedMode})
       </button>

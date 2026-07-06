@@ -11,11 +11,7 @@ import {
   type ReactNode,
 } from "react";
 import { THEME_STORAGE_KEY } from "./theme.constants";
-import type {
-  ResolvedThemeMode,
-  ThemeContextValue,
-  ThemeMode,
-} from "./theme.types";
+import type { ResolvedThemeMode, ThemeContextValue, ThemeMode } from "./theme.types";
 import {
   applyResolvedThemeMode,
   getSystemTheme,
@@ -101,9 +97,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     };
   }, [mode, resolvedMode, setThemeMode, toggleMode]);
 
-  return (
-    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme(): ThemeContextValue {

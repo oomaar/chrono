@@ -7,9 +7,7 @@ export const isThemeMode = (value: string | null): value is ThemeMode => {
   return value !== null && THEME_MODES.includes(value as ThemeMode);
 };
 
-export const getSystemTheme = (
-  darkModeQuery: MediaQueryList,
-): ResolvedThemeMode => {
+export const getSystemTheme = (darkModeQuery: MediaQueryList): ResolvedThemeMode => {
   return darkModeQuery.matches ? "dark" : "light";
 };
 
