@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Toaster, TooltipProvider } from "@/features/design-system";
 import { ThemeProvider } from "@/features/theme";
 import { ThemeInitScript } from "@/features/theme/components/theme-init-script";
 import "./globals.css";
@@ -41,7 +42,10 @@ export default function RootLayout({
         <ThemeInitScript />
       </head>
       <body className="min-h-full">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <TooltipProvider delayDuration={200}>{children}</TooltipProvider>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
