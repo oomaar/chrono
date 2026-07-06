@@ -1,64 +1,79 @@
-import Image from "next/image";
+import { designTokens } from "@/features/design-system/tokens";
+import { createFakeDb } from "@/features/fake-db";
+import { ThemeToggle } from "@/features/theme";
 
 export default function Home() {
+  const db = createFakeDb();
+  const latestTimeline = db.timelineEvents.slice(0, 8);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+    <div className="bg-bg text-ink relative min-h-screen overflow-hidden">
+      <main className="relative mx-auto flex w-full max-w-6xl flex-col gap-8 px-6 py-12 sm:px-10">
+        <header className="border-line bg-surface flex flex-col justify-between gap-5 rounded-2xl border p-6 md:flex-row md:items-end">
+          <div className="space-y-3">
+            <p className="text-ink-3 font-mono text-xs tracking-[0.2em] uppercase">
+              Phase 0 - Foundation
+            </p>
+            <h1 className="max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">
+              Chrono starts from time: deterministic data, tokenized UI, and runtime
+              theming.
+            </h1>
+            <p className="text-ink-2 max-w-2xl text-sm sm:text-base">
+              Seed: {db.seed} | Devices: {db.devices.length} | Incidents:{" "}
+              {db.incidents.length}
+            </p>
+          </div>
+          <ThemeToggle />
+        </header>
+
+        <section className="border-line bg-surface rounded-2xl border p-6">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-lg font-semibold">Operational Timeline</h2>
+            <span className="border-line bg-elev text-ink-3 rounded-full border px-3 py-1 font-mono text-xs">
+              Tick {designTokens.timeline.majorTickMinutes}m
+            </span>
+          </div>
+
+          <ol className="space-y-3">
+            {latestTimeline.map((event) => (
+              <li
+                key={event.id}
+                className="border-line bg-elev grid gap-3 rounded-xl border p-4 md:grid-cols-[180px_1fr]"
+              >
+                <div className="text-ink-2 text-sm">
+                  {new Date(event.timestamp).toLocaleString()}
+                </div>
+                <div className="space-y-1">
+                  <p className="text-warn font-mono text-xs tracking-[0.18em] uppercase">
+                    {event.type.replaceAll("-", " ")}
+                  </p>
+                  <p className="text-sm sm:text-base">{event.summary}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="border-line bg-surface grid gap-4 rounded-2xl border p-6 md:grid-cols-3">
+          <article className="border-line bg-elev rounded-xl border p-4">
+            <p className="text-ink-3 font-mono text-xs tracking-[0.16em] uppercase">
+              Token Depth
+            </p>
+            <p className="mt-2 text-xl font-semibold">{designTokens.depth.modal}</p>
+          </article>
+          <article className="border-line bg-elev rounded-xl border p-4">
+            <p className="text-ink-3 font-mono text-xs tracking-[0.16em] uppercase">
+              Motion Normal
+            </p>
+            <p className="mt-2 text-xl font-semibold">{designTokens.motion.normal}ms</p>
+          </article>
+          <article className="border-line bg-elev rounded-xl border p-4">
+            <p className="text-ink-3 font-mono text-xs tracking-[0.16em] uppercase">
+              Users Linked
+            </p>
+            <p className="mt-2 text-xl font-semibold">{db.users.length}</p>
+          </article>
+        </section>
       </main>
     </div>
   );
