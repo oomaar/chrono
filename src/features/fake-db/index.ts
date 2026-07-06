@@ -25,6 +25,17 @@ export {
 
 export { createFakeDb } from "./generators/create-fake-db";
 export { createTimeEngine } from "./time-engine/time-engine";
+export { createClock } from "./time-engine/clock";
+export type { Clock, ClockListener, ClockOptions } from "./time-engine/clock.types";
+export { useClock } from "./time-engine/use-clock";
+export { createAmbientEventGenerator } from "./time-engine/ambient-generator";
+export type { AmbientEventGenerator } from "./time-engine/ambient-generator";
+export {
+  DEFAULT_ROLLING_DURATION_MINUTES,
+  derivedUpdateProgress,
+} from "./time-engine/derived-progress";
+export { createLiveEngine, liveElapsedMinutes } from "./time-engine/live-engine";
+export type { LiveEngine, LiveEngineOptions } from "./time-engine/live-engine";
 export { createSeededRng } from "./utils/seeded-rng";
 export type { SeededRng } from "./utils/seeded-rng";
 export {
