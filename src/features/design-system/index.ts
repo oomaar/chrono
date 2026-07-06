@@ -14,6 +14,7 @@ export * from "./components/modal";
 export * from "./components/popover";
 export * from "./components/screen-state";
 export * from "./components/skeleton";
+export * from "./components/tabs";
 export * from "./components/timeline-marker";
 export * from "./components/toast";
 export * from "./components/tooltip";

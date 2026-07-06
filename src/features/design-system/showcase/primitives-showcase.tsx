@@ -14,6 +14,10 @@ import {
   Kbd,
   Skeleton,
   SkeletonLines,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
 } from "../";
 import { ShowcaseRow, ShowcaseSection } from "./showcase-section";
 
@@ -135,6 +139,80 @@ export function PrimitivesShowcase() {
           <Card>
             <SkeletonLines count={3} />
           </Card>
+        </div>
+      </ShowcaseRow>
+
+      <ShowcaseRow label="Tabs · underline">
+        <div className="w-full max-w-2xl">
+          <Tabs defaultValue="past">
+            <TabsList>
+              <TabsTrigger value="past">Past</TabsTrigger>
+              <TabsTrigger value="present">Present</TabsTrigger>
+              <TabsTrigger value="future">Future</TabsTrigger>
+              <TabsTrigger value="scheduled" disabled>
+                Scheduled
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="past">
+              <Card>
+                <CardKicker>Reconstructed · -24h → now</CardKicker>
+                <CardTitle className="mt-2">328 moments in the last day</CardTitle>
+                <CardBody>
+                  6 incidents · 4 deployments · 18 commands · 300 background events.
+                </CardBody>
+              </Card>
+            </TabsContent>
+            <TabsContent value="present">
+              <Card>
+                <CardKicker>Live · reconstructed at the playhead</CardKicker>
+                <CardTitle className="mt-2">2,884 devices online · 12 offline</CardTitle>
+                <CardBody>
+                  All Berlin devices back online · Wave 5 rollout in progress.
+                </CardBody>
+              </Card>
+            </TabsContent>
+            <TabsContent value="future">
+              <Card>
+                <CardKicker>Scheduled · next 12h</CardKicker>
+                <CardTitle className="mt-2">2 automations pending</CardTitle>
+                <CardBody>
+                  Deploy 14.3 to Finance at 02:00 UTC · Rotate compliance report at 06:00
+                  UTC.
+                </CardBody>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </ShowcaseRow>
+
+      <ShowcaseRow label="Tabs · pill">
+        <div className="w-full max-w-2xl">
+          <Tabs defaultValue="timeline">
+            <TabsList variant="pill">
+              <TabsTrigger value="timeline">Timeline</TabsTrigger>
+              <TabsTrigger value="devices">Devices</TabsTrigger>
+              <TabsTrigger value="policies">Policies</TabsTrigger>
+              <TabsTrigger value="rules">Automation</TabsTrigger>
+            </TabsList>
+            <TabsContent value="timeline">
+              <p className="text-ink-2 text-sm">
+                Scrub the ribbon, click a marker, replay a moment.
+              </p>
+            </TabsContent>
+            <TabsContent value="devices">
+              <p className="text-ink-2 text-sm">
+                Every device is a lane on the timeline.
+              </p>
+            </TabsContent>
+            <TabsContent value="policies">
+              <p className="text-ink-2 text-sm">
+                Policies apply as moments — reversible from the timeline.
+              </p>
+            </TabsContent>
+            <TabsContent value="rules">
+              <p className="text-ink-2 text-sm">Rules add moments to the future lane.</p>
+            </TabsContent>
+          </Tabs>
         </div>
       </ShowcaseRow>
     </ShowcaseSection>
