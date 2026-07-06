@@ -23,8 +23,8 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(
       <SwitchPrimitive.Thumb
         className={cn(
           "bg-ink pointer-events-none block h-3.5 w-3.5 rounded-full shadow-[0_1px_2px_rgba(0,0,0,0.3)] transition-transform",
-          "data-[state=checked]:bg-bg data-[state=checked]:translate-x-[18px]",
-          "data-[state=unchecked]:translate-x-[3px]",
+          "data-[state=checked]:bg-bg data-[state=checked]:translate-x-4.5",
+          "data-[state=unchecked]:translate-x-0.75",
         )}
       />
     </SwitchPrimitive.Root>
