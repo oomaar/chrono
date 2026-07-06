@@ -1,14 +1,18 @@
 export const colorTokenNames = {
-  bgCanvas: "--color-bg-canvas",
-  bgSurface: "--color-bg-surface",
-  bgElevated: "--color-bg-elevated",
-  textPrimary: "--color-text-primary",
-  textMuted: "--color-text-muted",
-  borderSubtle: "--color-border-subtle",
-  accentCyan: "--color-accent-cyan",
-  accentAmber: "--color-accent-amber",
-  danger: "--color-danger",
-  success: "--color-success",
+  bg: "--color-bg",
+  surface: "--color-surface",
+  surface2: "--color-surface-2",
+  elev: "--color-elev",
+  ink: "--color-ink",
+  ink2: "--color-ink-2",
+  ink3: "--color-ink-3",
+  line: "--color-line",
+  line2: "--color-line-2",
+  lineStrong: "--color-line-strong",
+  brand: "--color-brand",
+  ok: "--color-ok",
+  warn: "--color-warn",
+  crit: "--color-crit",
 } as const;
 
 export const radiusTokens = {
