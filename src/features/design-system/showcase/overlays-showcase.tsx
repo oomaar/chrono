@@ -3,6 +3,9 @@
 import { AlertTriangle, Copy, Info, Trash2 } from "lucide-react";
 import { useState } from "react";
 import {
+  Avatar,
+  AvatarFallback,
+  Badge,
   Button,
   ContextMenu,
   ContextMenuCheckboxItem,
@@ -26,6 +29,9 @@ import {
   DropdownSeparator,
   DropdownShortcut,
   DropdownTrigger,
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
   Kbd,
   Modal,
   ModalContent,
@@ -37,6 +43,8 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
+  Separator,
+  TimelineMarker,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -50,7 +58,7 @@ export function OverlaysShowcase() {
   return (
     <ShowcaseSection
       kicker="Overlays"
-      title="Tooltip, Popover, Dropdown, Context Menu, Modal, Drawer, Toast"
+      title="Tooltip, HoverCard, Popover, Dropdown, Context Menu, Modal, Drawer, Toast"
       description="Every overlay is keyboard-accessible via Radix, styled with tokens, and animated with data-state utilities."
     >
       <ShowcaseRow label="Tooltip">
@@ -62,6 +70,71 @@ export function OverlaysShowcase() {
           </TooltipTrigger>
           <TooltipContent>Return to now — Cmd + .</TooltipContent>
         </Tooltip>
+      </ShowcaseRow>
+
+      <ShowcaseRow label="HoverCard">
+        <HoverCard openDelay={120} closeDelay={80}>
+          <HoverCardTrigger asChild>
+            <button
+              type="button"
+              className="border-line bg-surface text-ink-2 hover:border-line-strong hover:text-ink flex items-center gap-2 rounded-full border px-3 py-1 text-sm transition-colors"
+            >
+              <span className="text-ink-3 font-mono text-xs">device</span>
+              atlas-441
+            </button>
+          </HoverCardTrigger>
+          <HoverCardContent>
+            <div className="flex items-start gap-3">
+              <Avatar size="md">
+                <AvatarFallback>AK</AvatarFallback>
+              </Avatar>
+              <div className="flex-1 space-y-1">
+                <p className="text-brand font-mono text-[10px] tracking-[0.14em] uppercase">
+                  Device · online
+                </p>
+                <p className="text-ink text-sm font-semibold">atlas-441</p>
+                <p className="text-ink-2 text-xs">A. Keller · Berlin</p>
+              </div>
+              <Badge tone="ok" dot>
+                healthy
+              </Badge>
+            </div>
+            <Separator className="my-3" />
+            <div className="grid grid-cols-3 gap-2 text-center">
+              <div>
+                <p className="text-ink font-mono text-sm font-semibold">14.2</p>
+                <p className="text-ink-3 text-[10px]">os</p>
+              </div>
+              <div>
+                <p className="text-ink font-mono text-sm font-semibold">92%</p>
+                <p className="text-ink-3 text-[10px]">battery</p>
+              </div>
+              <div>
+                <p className="text-ink font-mono text-sm font-semibold">18m</p>
+                <p className="text-ink-3 text-[10px]">last check</p>
+              </div>
+            </div>
+          </HoverCardContent>
+        </HoverCard>
+
+        <HoverCard openDelay={120} closeDelay={80}>
+          <HoverCardTrigger asChild>
+            <span className="inline-flex">
+              <TimelineMarker tone="crit" pulse label="Critical moment" />
+            </span>
+          </HoverCardTrigger>
+          <HoverCardContent>
+            <p className="text-crit font-mono text-[10px] tracking-[0.14em] uppercase">
+              Incident · -2h
+            </p>
+            <p className="text-ink mt-1 text-sm font-semibold">
+              12 Finance devices lost disk encryption
+            </p>
+            <p className="text-ink-2 mt-2 text-xs">
+              Recommended: re-apply FileVault policy · 96% confidence.
+            </p>
+          </HoverCardContent>
+        </HoverCard>
       </ShowcaseRow>
 
       <ShowcaseRow label="Popover">

@@ -14,10 +14,12 @@ import {
   Kbd,
   Skeleton,
   SkeletonLines,
+  Switch,
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
+  Textarea,
 } from "../";
 import { ShowcaseRow, ShowcaseSection } from "./showcase-section";
 
@@ -92,6 +94,36 @@ export function PrimitivesShowcase() {
           />
           <Input label="Disabled" defaultValue="—" disabled />
         </div>
+      </ShowcaseRow>
+
+      <ShowcaseRow label="Textarea">
+        <div className="grid w-full gap-4 md:grid-cols-2">
+          <Textarea
+            label="Incident notes"
+            placeholder="What did you observe? What did you do?"
+            helperText="Attached to the moment · visible to everyone with access."
+          />
+          <Textarea
+            label="Post-mortem summary"
+            defaultValue="Root cause: FileVault escrow silently reverted after 14.2. Fix: re-apply policy, monitor for 24h."
+            rows={5}
+          />
+        </div>
+      </ShowcaseRow>
+
+      <ShowcaseRow label="Switch">
+        <label className="text-ink-2 flex items-center gap-3 text-sm">
+          <Switch defaultChecked />
+          <span>Live mode</span>
+        </label>
+        <label className="text-ink-2 flex items-center gap-3 text-sm">
+          <Switch />
+          <span>Show regions</span>
+        </label>
+        <label className="text-ink-2 flex items-center gap-3 text-sm">
+          <Switch disabled />
+          <span>Auto-remediate</span>
+        </label>
       </ShowcaseRow>
 
       <ShowcaseRow label="Card">
