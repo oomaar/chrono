@@ -1,3 +1,4 @@
+import { DataShowcase } from "@/features/design-system/showcase/data-showcase";
 import { OverlaysShowcase } from "@/features/design-system/showcase/overlays-showcase";
 import { PrimitivesShowcase } from "@/features/design-system/showcase/primitives-showcase";
 import { ServerStatesShowcase } from "@/features/design-system/showcase/server-states-showcase";
@@ -31,6 +32,7 @@ export default function DesignSystemPage() {
         </header>
 
         <PrimitivesShowcase />
+        <DataShowcase />
         <TimelineShowcase />
         <OverlaysShowcase />
         <StatesShowcase />
