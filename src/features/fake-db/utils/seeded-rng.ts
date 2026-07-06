@@ -4,7 +4,9 @@ export type SeededRng = {
   int: (min: number, max: number) => number;
   bool: (truthyProbability?: number) => boolean;
   pick: <T>(items: readonly T[]) => T;
+  pickWeighted: <T extends { weight: number }>(items: readonly T[]) => T;
   shuffle: <T>(items: readonly T[]) => T[];
+  sample: <T>(items: readonly T[], count: number) => T[];
   id: (prefix: string) => string;
 };
 
@@ -71,6 +73,26 @@ export const createSeededRng = (seedInput: string | number): SeededRng => {
     return items[int(0, items.length - 1)];
   };
 
+  const pickWeighted = <T extends { weight: number }>(items: readonly T[]): T => {
+    if (items.length === 0) {
+      throw new Error("Cannot pick from an empty list");
+    }
+
+    const total = items.reduce((sum, item) => sum + Math.max(0, item.weight), 0);
+    if (total <= 0) {
+      return items[0];
+    }
+
+    let cursor = float() * total;
+    for (const item of items) {
+      cursor -= Math.max(0, item.weight);
+      if (cursor <= 0) {
+        return item;
+      }
+    }
+    return items[items.length - 1];
+  };
+
   const shuffle = <T>(items: readonly T[]): T[] => {
     const next = [...items];
 
@@ -82,6 +104,12 @@ export const createSeededRng = (seedInput: string | number): SeededRng => {
     }
 
     return next;
+  };
+
+  const sample = <T>(items: readonly T[], count: number): T[] => {
+    if (count <= 0) return [];
+    const clamped = Math.min(count, items.length);
+    return shuffle(items).slice(0, clamped);
   };
 
   const id = (prefix: string) => {
@@ -96,7 +124,9 @@ export const createSeededRng = (seedInput: string | number): SeededRng => {
     int,
     bool,
     pick,
+    pickWeighted,
     shuffle,
+    sample,
     id,
   };
 };
