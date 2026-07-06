@@ -62,29 +62,25 @@ export const createFakeDb = (seed = DEFAULT_FAKE_DB_SEED): FakeDb => {
     };
   });
 
-  const devices: Device[] = Array.from(
-    { length: COUNTS.devices },
-    (_, index) => {
-      const team = rng.pick(teams);
-      const office = rng.pick(offices);
-      const candidates = users.filter((user) => user.teamId === team.id);
-      const owner =
-        candidates.length > 0 ? rng.pick(candidates) : rng.pick(users);
-      const prefix = rng.pick(DEVICE_PREFIXES);
+  const devices: Device[] = Array.from({ length: COUNTS.devices }, (_, index) => {
+    const team = rng.pick(teams);
+    const office = rng.pick(offices);
+    const candidates = users.filter((user) => user.teamId === team.id);
+    const owner = candidates.length > 0 ? rng.pick(candidates) : rng.pick(users);
+    const prefix = rng.pick(DEVICE_PREFIXES);
 
-      return {
-        id: createDeviceId(index),
-        name: `${prefix}-${rng.int(100, 999)}`,
-        teamId: team.id,
-        officeId: office.id,
-        ownerUserId: owner.id,
-        status: rng.pick(DEVICE_STATUSES),
-        batteryLevel: rng.int(12, 100),
-        cpuLoad: rng.int(4, 97),
-        lastSeenAt: timestampAt(rng.int(1, 180)),
-      };
-    },
-  );
+    return {
+      id: createDeviceId(index),
+      name: `${prefix}-${rng.int(100, 999)}`,
+      teamId: team.id,
+      officeId: office.id,
+      ownerUserId: owner.id,
+      status: rng.pick(DEVICE_STATUSES),
+      batteryLevel: rng.int(12, 100),
+      cpuLoad: rng.int(4, 97),
+      lastSeenAt: timestampAt(rng.int(1, 180)),
+    };
+  });
 
   const deployments: Deployment[] = Array.from(
     { length: COUNTS.deployments },
@@ -92,9 +88,7 @@ export const createFakeDb = (seed = DEFAULT_FAKE_DB_SEED): FakeDb => {
       const team = rng.pick(teams);
       const actorCandidates = users.filter((user) => user.teamId === team.id);
       const actor =
-        actorCandidates.length > 0
-          ? rng.pick(actorCandidates)
-          : rng.pick(users);
+        actorCandidates.length > 0 ? rng.pick(actorCandidates) : rng.pick(users);
 
       const teamDevices = devices.filter((device) => device.teamId === team.id);
       const affectedCount = Math.min(teamDevices.length, rng.int(6, 18));
@@ -114,36 +108,29 @@ export const createFakeDb = (seed = DEFAULT_FAKE_DB_SEED): FakeDb => {
     },
   );
 
-  const incidents: Incident[] = Array.from(
-    { length: COUNTS.incidents },
-    (_, index) => {
-      const team = rng.pick(teams);
-      const teamUsers = users.filter((user) => user.teamId === team.id);
-      const owner =
-        teamUsers.length > 0 ? rng.pick(teamUsers) : rng.pick(users);
+  const incidents: Incident[] = Array.from({ length: COUNTS.incidents }, (_, index) => {
+    const team = rng.pick(teams);
+    const teamUsers = users.filter((user) => user.teamId === team.id);
+    const owner = teamUsers.length > 0 ? rng.pick(teamUsers) : rng.pick(users);
 
-      const teamDevices = devices.filter((device) => device.teamId === team.id);
-      const impactedCount = Math.max(
-        1,
-        Math.min(teamDevices.length, rng.int(1, 7)),
-      );
-      const impacted = rng.shuffle(teamDevices).slice(0, impactedCount);
+    const teamDevices = devices.filter((device) => device.teamId === team.id);
+    const impactedCount = Math.max(1, Math.min(teamDevices.length, rng.int(1, 7)));
+    const impacted = rng.shuffle(teamDevices).slice(0, impactedCount);
 
-      const openedMinutesAgo = rng.int(45, 1600);
-      const durationMinutes = rng.int(12, 120);
+    const openedMinutesAgo = rng.int(45, 1600);
+    const durationMinutes = rng.int(12, 120);
 
-      return {
-        id: createIncidentId(index),
-        title: `${rng.pick(["Kernel panic", "Network partition", "Policy drift", "Update failure"])} on ${impacted[0]?.name ?? "device cluster"}`,
-        severity: rng.pick(INCIDENT_SEVERITIES),
-        teamId: team.id,
-        deviceIds: impacted.map((device) => device.id),
-        openedAt: timestampAt(openedMinutesAgo),
-        resolvedAt: timestampAt(openedMinutesAgo - durationMinutes),
-        primaryOwnerUserId: owner.id,
-      };
-    },
-  );
+    return {
+      id: createIncidentId(index),
+      title: `${rng.pick(["Kernel panic", "Network partition", "Policy drift", "Update failure"])} on ${impacted[0]?.name ?? "device cluster"}`,
+      severity: rng.pick(INCIDENT_SEVERITIES),
+      teamId: team.id,
+      deviceIds: impacted.map((device) => device.id),
+      openedAt: timestampAt(openedMinutesAgo),
+      resolvedAt: timestampAt(openedMinutesAgo - durationMinutes),
+      primaryOwnerUserId: owner.id,
+    };
+  });
 
   const timelineEvents: TimelineEvent[] = [];
 
@@ -199,8 +186,7 @@ export const createFakeDb = (seed = DEFAULT_FAKE_DB_SEED): FakeDb => {
     const actor =
       actorCandidates.length > 0 ? rng.pick(actorCandidates) : rng.pick(users);
     const teamDevices = devices.filter((device) => device.teamId === team.id);
-    const device =
-      teamDevices.length > 0 ? rng.pick(teamDevices) : rng.pick(devices);
+    const device = teamDevices.length > 0 ? rng.pick(teamDevices) : rng.pick(devices);
 
     timelineEvents.push({
       id: rng.id("evt"),
