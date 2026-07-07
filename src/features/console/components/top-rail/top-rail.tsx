@@ -3,7 +3,7 @@
 import { ThemeToggle } from "@/features/theme";
 import { BrandMark } from "./brand-mark";
 import { LiveClock } from "./live-clock";
-import { ModeStatement } from "../mode-statement";
+import { ModeStatement } from "./mode-statement";
 import { UserAvatarChip } from "./user-avatar-chip";
 
 /**
