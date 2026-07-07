@@ -3,22 +3,27 @@
 import { useCallback } from "react";
 import {
   JumpMenu,
+  PinBar,
   PlaybackControls,
   TimelineAxis,
   TimelineLanes,
   TimelineRibbon,
   ZoomControls,
+  useTimelineShortcuts,
   type EventCluster,
 } from "@/features/timeline";
 import { useConsole } from "../console-provider";
 
 /**
- * The always-present timeline spine: kicker + slim toolbar, axis, ribbon,
- * lane strips. Consumes state from ConsoleProvider so all interactions ripple
- * to the top rail and the stage.
+ * The always-present timeline spine: kicker + pin bar + slim toolbar, axis,
+ * ribbon, lane strips. Consumes state from ConsoleProvider so all interactions
+ * ripple to the top rail and the stage. Also binds keyboard shortcuts so the
+ * timeline is fully controllable from the keyboard on every screen.
  */
 export function TimelineSpine() {
   const { timeline, setFocusedMoment } = useConsole();
+
+  useTimelineShortcuts(timeline);
 
   const handleScrub = useCallback(
     (timestamp: string) => {
@@ -41,6 +46,13 @@ export function TimelineSpine() {
         <p className="text-ink-3 font-mono text-[10px] font-semibold tracking-[0.14em] uppercase">
           Fleet health · last 24h · drag to scrub, click a marker to investigate
         </p>
+        <PinBar
+          pins={timeline.pins}
+          now={timeline.now}
+          onJumpToPin={timeline.jumpToPin}
+          onClearPin={timeline.clearPin}
+          onClearAll={timeline.clearPins}
+        />
         <div className="ml-auto flex flex-wrap items-center gap-2">
           <PlaybackControls
             mode={timeline.mode}
@@ -65,6 +77,7 @@ export function TimelineSpine() {
         playheadRatio={timeline.playheadRatio}
         mode={timeline.mode}
         isFutureVisible={timeline.isFutureVisible}
+        pins={timeline.pins}
         onScrub={handleScrub}
         onMarkerClick={handleMarker}
       />
