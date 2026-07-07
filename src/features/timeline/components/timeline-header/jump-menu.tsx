@@ -1,8 +1,8 @@
 "use client";
 
 import { cn } from "@/features/design-system";
-import type { JumpPreset } from "../types/timeline.types";
-import { JUMP_PRESET_LABELS } from "../utils/zoom-presets";
+import type { JumpPreset } from "../../types/timeline.types";
+import { JUMP_PRESET_LABELS } from "../../utils/zoom-presets";
 
 type JumpMenuProps = {
   onJump: (preset: JumpPreset) => void;

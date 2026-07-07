@@ -2,7 +2,7 @@
 
 import { ChevronLeft, ChevronRight, Pause, Play, SkipBack } from "lucide-react";
 import { cn } from "@/features/design-system";
-import type { TimelineMode } from "../types/timeline.types";
+import type { TimelineMode } from "../../types/timeline.types";
 
 type PlaybackControlsProps = {
   mode: TimelineMode;

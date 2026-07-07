@@ -2,7 +2,7 @@
 
 import { motion } from "motion/react";
 import { cn } from "@/features/design-system";
-import type { TimelineMode } from "../types/timeline.types";
+import type { TimelineMode } from "../../types/timeline.types";
 
 type LiveBadgeProps = {
   mode: TimelineMode;
