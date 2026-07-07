@@ -2,11 +2,13 @@
 
 import { useCallback } from "react";
 import type { LiveEngine, TimelineEvent } from "@/features/fake-db";
+import { PinBar } from "./pin-bar";
 import { TimelineAxis } from "./timeline-axis";
 import { TimelineHeader } from "./timeline-header/timeline-header";
 import { TimelineLanes } from "./timeline-lanes/timeline-lanes";
 import { TimelineRibbon } from "./timeline-ribbon/timeline-ribbon";
 import { useTimelineEngine } from "../hooks/use-timeline-engine";
+import { useTimelineShortcuts } from "../hooks/use-timeline-shortcuts";
 import type { EventCluster, TimelineMode, ZoomLevel } from "../types/timeline.types";
 
 export type TimelineCanvasProps = {
@@ -17,9 +19,9 @@ export type TimelineCanvasProps = {
 };
 
 /**
- * The Timeline Console — the primary interface of Chrono.
- * Composes header, ribbon (scrubber + playhead + markers), axis, and lanes
- * and wires them together through the useTimelineEngine hook.
+ * Standalone Timeline Console — composes the header, ribbon, axis, and lanes
+ * and drives them from the useTimelineEngine hook. Also binds keyboard
+ * shortcuts and renders a pin bar for A/B compare pins.
  */
 export function TimelineCanvas({
   engine,
@@ -32,6 +34,8 @@ export function TimelineCanvas({
     initialZoom,
     initialMode,
   });
+
+  useTimelineShortcuts(timeline);
 
   const eventsPerMinute =
     Math.round(
@@ -79,6 +83,19 @@ export function TimelineCanvas({
         onToggleLive={handleToggleLive}
       />
 
+      <div className="flex flex-wrap items-center gap-2">
+        <PinBar
+          pins={timeline.pins}
+          now={timeline.now}
+          onJumpToPin={timeline.jumpToPin}
+          onClearPin={timeline.clearPin}
+          onClearAll={timeline.clearPins}
+        />
+        <span className="text-ink-3 ml-auto font-mono text-[10px] tracking-[0.14em] uppercase">
+          keys: space play · arrows step · esc now · a/b pin
+        </span>
+      </div>
+
       <div className="flex flex-col gap-2">
         <TimelineAxis window={timeline.window} now={timeline.now} zoom={timeline.zoom} />
         <TimelineRibbon
@@ -88,6 +105,7 @@ export function TimelineCanvas({
           playheadRatio={timeline.playheadRatio}
           mode={timeline.mode}
           isFutureVisible={timeline.isFutureVisible}
+          pins={timeline.pins}
           onScrub={handleScrub}
           onMarkerClick={handleMarkerClick}
         />
