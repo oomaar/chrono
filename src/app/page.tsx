@@ -1,5 +1,5 @@
-import { TimelineConsole } from "@/features/timeline/components/timeline-console";
+import { ConsoleShell } from "@/features/console";
 
 export default function Home() {
-  return <TimelineConsole />;
+  return <ConsoleShell />;
 }
