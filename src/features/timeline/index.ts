@@ -14,6 +14,8 @@ export { RibbonWaveform } from "./components/timeline-ribbon/ribbon-waveform";
 export { RibbonMarkers } from "./components/timeline-ribbon/ribbon-markers";
 export { RibbonFutureShade } from "./components/timeline-ribbon/ribbon-future-shade";
 export { RibbonHoverGhost } from "./components/timeline-ribbon/ribbon-hover-ghost";
+export { RibbonPins } from "./components/timeline-ribbon/ribbon-pins";
+export { PinBar } from "./components/pin-bar";
 
 export { useTimelineEngine } from "./hooks/use-timeline-engine";
 export type {
@@ -23,6 +25,7 @@ export type {
 export { useScrubber } from "./hooks/use-scrubber";
 export { useEventGroups } from "./hooks/use-event-groups";
 export { useElementWidth } from "./hooks/use-element-width";
+export { useTimelineShortcuts } from "./hooks/use-timeline-shortcuts";
 
 export { clusterEventsByProximity } from "./utils/event-clustering";
 export {
@@ -48,6 +51,8 @@ export {
 export type {
   EventCluster,
   JumpPreset,
+  PinSlot,
+  PinState,
   PlaybackRate,
   TimelineMode,
   ZoomLevel,
