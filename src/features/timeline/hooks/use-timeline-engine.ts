@@ -19,6 +19,8 @@ import {
 } from "../utils/zoom-presets";
 import type {
   JumpPreset,
+  PinSlot,
+  PinState,
   PlaybackRate,
   TimelineMode,
   ZoomLevel,
@@ -40,6 +42,7 @@ export type TimelineEngineApi = {
   mode: TimelineMode;
   zoom: ZoomLevel;
   playbackRate: PlaybackRate;
+  pins: PinState;
   buckets: RibbonBucket[];
   events: TimelineEvent[];
   state: ReconstructedState;
@@ -52,6 +55,10 @@ export type TimelineEngineApi = {
   stepBy: (minutes: number) => void;
   jumpTo: (preset: JumpPreset) => void;
   returnToNow: () => void;
+  pinAt: (slot: PinSlot, timestamp: string) => void;
+  clearPin: (slot: PinSlot) => void;
+  clearPins: () => void;
+  jumpToPin: (slot: PinSlot) => void;
 };
 
 const jumpPresetMinutes: Record<JumpPreset, number | "now"> = {
@@ -66,8 +73,9 @@ const jumpPresetMinutes: Record<JumpPreset, number | "now"> = {
 };
 
 /**
- * The master timeline hook. Owns playhead, mode, zoom, and playback state,
- * and derives everything a timeline UI needs from the underlying live engine.
+ * The master timeline hook. Owns playhead, mode, zoom, playback rate, and
+ * pins, and derives everything a timeline UI needs from the underlying live
+ * engine.
  */
 export const useTimelineEngine = ({
   engine,
@@ -81,6 +89,7 @@ export const useTimelineEngine = ({
   const [playhead, setPlayheadState] = useState<string>(() => now);
   const [playbackRate, setPlaybackRateState] =
     useState<PlaybackRate>(DEFAULT_PLAYBACK_RATE);
+  const [pins, setPinsState] = useState<PinState>({ A: null, B: null });
 
   // In live mode the playhead is always "now" — no need to sync via effects.
   const effectivePlayhead = mode === "live" ? now : playhead;
@@ -102,9 +111,6 @@ export const useTimelineEngine = ({
     (rate: PlaybackRate) => {
       setPlaybackRateState(rate);
       engine.clock.stop();
-      // Reconfigure by restarting with new scale would need a new clock; instead
-      // we defer to next tick — the clock keeps its scale as configured at creation.
-      // Consumers wanting live-rate change should recreate the clock.
       engine.clock.start();
     },
     [engine.clock],
@@ -149,6 +155,29 @@ export const useTimelineEngine = ({
     setMode("live");
   }, [now]);
 
+  const pinAt = useCallback((slot: PinSlot, timestamp: string) => {
+    setPinsState((current) => ({ ...current, [slot]: timestamp }));
+  }, []);
+
+  const clearPin = useCallback((slot: PinSlot) => {
+    setPinsState((current) => ({ ...current, [slot]: null }));
+  }, []);
+
+  const clearPins = useCallback(() => {
+    setPinsState({ A: null, B: null });
+  }, []);
+
+  const jumpToPin = useCallback((slot: PinSlot) => {
+    setPinsState((current) => {
+      const target = current[slot];
+      if (target) {
+        setPlayheadState(target);
+        setMode("scrubbing");
+      }
+      return current;
+    });
+  }, []);
+
   const window = useMemo<TimeWindow>(() => {
     const totalMinutes = ZOOM_MINUTES[zoom];
     const pastMinutes = totalMinutes * PAST_RATIO;
@@ -189,6 +218,7 @@ export const useTimelineEngine = ({
     mode,
     zoom,
     playbackRate,
+    pins,
     buckets,
     events,
     state,
@@ -201,5 +231,9 @@ export const useTimelineEngine = ({
     stepBy,
     jumpTo,
     returnToNow,
+    pinAt,
+    clearPin,
+    clearPins,
+    jumpToPin,
   };
 };

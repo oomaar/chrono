@@ -19,3 +19,10 @@ export type EventCluster = {
 };
 
 export type JumpPreset = "-24h" | "-6h" | "-1h" | "-15m" | "now" | "+1h" | "+6h" | "+12h";
+
+export type PinSlot = "A" | "B";
+
+export type PinState = {
+  A: string | null;
+  B: string | null;
+};
