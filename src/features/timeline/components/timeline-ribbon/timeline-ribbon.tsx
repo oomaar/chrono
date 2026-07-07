@@ -6,12 +6,13 @@ import type { TimelineEvent, TimeWindow } from "@/features/fake-db";
 import { RibbonFutureShade } from "./ribbon-future-shade";
 import { RibbonHoverGhost } from "./ribbon-hover-ghost";
 import { RibbonMarkers } from "./ribbon-markers";
+import { RibbonPins } from "./ribbon-pins";
 import { RibbonPlayhead } from "./ribbon-playhead";
 import { RibbonWaveform } from "./ribbon-waveform";
 import { useElementWidth } from "../../hooks/use-element-width";
 import { useEventGroups } from "../../hooks/use-event-groups";
 import { useScrubber } from "../../hooks/use-scrubber";
-import type { EventCluster, TimelineMode } from "../../types/timeline.types";
+import type { EventCluster, PinState, TimelineMode } from "../../types/timeline.types";
 import type { RibbonBucket } from "@/features/fake-db";
 
 type TimelineRibbonProps = {
@@ -21,6 +22,7 @@ type TimelineRibbonProps = {
   playheadRatio: number;
   mode: TimelineMode;
   isFutureVisible: boolean;
+  pins?: PinState;
   onScrub: (timestamp: string) => void;
   onMarkerClick: (cluster: EventCluster) => void;
 };
@@ -36,6 +38,7 @@ export function TimelineRibbon({
   playheadRatio,
   mode,
   isFutureVisible,
+  pins,
   onScrub,
   onMarkerClick,
 }: TimelineRibbonProps) {
@@ -84,6 +87,7 @@ export function TimelineRibbon({
     >
       <RibbonFutureShade visible={isFutureVisible} />
       <RibbonWaveform buckets={buckets} />
+      {pins ? <RibbonPins pins={pins} window={window} /> : null}
       <RibbonMarkers clusters={clusters} onMarkerClick={handleMarkerClick} />
       <RibbonHoverGhost ratio={hoverGhostRatio} />
       <RibbonPlayhead ratio={playheadRatio} mode={mode} animated={animated} />
