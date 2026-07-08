@@ -1,6 +1,13 @@
 "use client";
 
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 import {
   BASE_TIMESTAMP_MS,
   createClock,
@@ -8,11 +15,28 @@ import {
   createLiveEngine,
 } from "@/features/fake-db";
 import { useTimelineEngine } from "@/features/timeline";
-import type { ConsoleContextValue } from "./types/console.types";
+import type { ConsoleContextValue, StagePane } from "./types/console.types";
 
 const TIMELINE_ANCHOR_ISO = new Date(BASE_TIMESTAMP_MS).toISOString();
 
 const ConsoleContext = createContext<ConsoleContextValue | null>(null);
+
+/**
+ * Derive the currently visible stage from the console's focus state and
+ * the timeline pin state. Priority: compare (both pins) > device > moment
+ * > console (default).
+ */
+const deriveStage = (
+  pinA: string | null,
+  pinB: string | null,
+  focusedDeviceId: string | null,
+  focusedMomentId: string | null,
+): StagePane => {
+  if (pinA && pinB) return "compare";
+  if (focusedDeviceId) return "device";
+  if (focusedMomentId) return "investigate";
+  return "console";
+};
 
 export function ConsoleProvider({ children }: { children: ReactNode }) {
   const { db, engine } = useMemo(() => {
@@ -37,6 +61,27 @@ export function ConsoleProvider({ children }: { children: ReactNode }) {
   });
 
   const [focusedMomentId, setFocusedMoment] = useState<string | null>(null);
+  const [focusedDeviceId, setFocusedDevice] = useState<string | null>(null);
+
+  const currentStage = deriveStage(
+    timeline.pins.A,
+    timeline.pins.B,
+    focusedDeviceId,
+    focusedMomentId,
+  );
+
+  const returnToConsole = useCallback(() => {
+    // Context-aware back: from compare, clear the pins that pinned us there.
+    // From investigate/device, clear the focused entity — pins are preserved
+    // so an operator can pin from one moment, return to the console, and pin
+    // the second moment from another investigation.
+    if (currentStage === "compare") {
+      timeline.clearPins();
+      return;
+    }
+    setFocusedMoment(null);
+    setFocusedDevice(null);
+  }, [currentStage, timeline]);
 
   const value = useMemo<ConsoleContextValue>(
     () => ({
@@ -44,9 +89,21 @@ export function ConsoleProvider({ children }: { children: ReactNode }) {
       engine,
       timeline,
       focusedMomentId,
+      focusedDeviceId,
+      currentStage,
       setFocusedMoment,
+      setFocusedDevice,
+      returnToConsole,
     }),
-    [db, engine, timeline, focusedMomentId],
+    [
+      db,
+      engine,
+      timeline,
+      focusedMomentId,
+      focusedDeviceId,
+      currentStage,
+      returnToConsole,
+    ],
   );
 
   return <ConsoleContext.Provider value={value}>{children}</ConsoleContext.Provider>;
