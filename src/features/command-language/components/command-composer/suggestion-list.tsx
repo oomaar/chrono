@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { cn } from "@/features/design-system";
-import type { Suggestion } from "../types/command-language.types";
+import type { Suggestion } from "../../types/command-language.types";
 
 const kindClass: Record<Suggestion["kind"], string> = {
   verb: "text-brand",

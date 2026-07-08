@@ -1,5 +1,5 @@
 import { cn } from "@/features/design-system";
-import type { ValidationIssue } from "../types/command-language.types";
+import type { ValidationIssue } from "../../types/command-language.types";
 
 type ValidationMessagesProps = {
   issues: ValidationIssue[];

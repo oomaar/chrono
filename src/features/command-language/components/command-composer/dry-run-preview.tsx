@@ -1,5 +1,5 @@
 import { cn } from "@/features/design-system";
-import type { DryRunPreview } from "../types/command-language.types";
+import type { DryRunPreview } from "../../types/command-language.types";
 
 type DryRunPreviewCardProps = {
   preview: DryRunPreview;

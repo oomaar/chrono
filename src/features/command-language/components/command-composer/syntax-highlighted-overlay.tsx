@@ -1,5 +1,5 @@
 import { cn } from "@/features/design-system";
-import type { Token } from "../types/command-language.types";
+import type { Token } from "../../types/command-language.types";
 
 const roleClass = (role: Token["role"]): string => {
   switch (role) {
