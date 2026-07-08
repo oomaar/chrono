@@ -30,6 +30,12 @@ export type CommandLanguageContextValue = {
   cancelScheduled: (receiptId: string) => void;
   clearHistory: () => void;
   isUndoable: (receiptId: string) => boolean;
+  /** Currently pending "review before execute" prompt, if any. */
+  pendingExecuteCommand: string | null;
+  /** Open the execute modal seeded with a canonical command string. */
+  openExecute: (raw: string) => void;
+  /** Close the execute modal (cancel). */
+  closeExecute: () => void;
 };
 
 const CommandLanguageContext = createContext<CommandLanguageContextValue | null>(null);
@@ -85,6 +91,15 @@ const missingReceiptIssue = (message: string): ValidationIssue => ({
 export function CommandLanguageProvider({ children }: { children: ReactNode }) {
   const { engine, timeline } = useConsole();
   const [receipts, setReceipts] = useState<CommandReceipt[]>([]);
+  const [pendingExecuteCommand, setPendingExecuteCommand] = useState<string | null>(null);
+
+  const openExecute = useCallback((raw: string) => {
+    setPendingExecuteCommand(raw);
+  }, []);
+
+  const closeExecute = useCallback(() => {
+    setPendingExecuteCommand(null);
+  }, []);
 
   const undo = useCallback(
     (receiptId: string) => {
@@ -310,6 +325,9 @@ export function CommandLanguageProvider({ children }: { children: ReactNode }) {
       cancelScheduled,
       clearHistory,
       isUndoable,
+      pendingExecuteCommand,
+      openExecute,
+      closeExecute,
     }),
     [
       receipts,
@@ -320,6 +338,9 @@ export function CommandLanguageProvider({ children }: { children: ReactNode }) {
       cancelScheduled,
       clearHistory,
       isUndoable,
+      pendingExecuteCommand,
+      openExecute,
+      closeExecute,
     ],
   );
 

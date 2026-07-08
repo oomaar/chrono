@@ -42,7 +42,7 @@ export function SyntaxHighlightedOverlay({
     <div
       aria-hidden
       className={cn(
-        "pointer-events-none font-mono text-sm leading-6 whitespace-pre",
+        "pointer-events-none font-mono text-[17px] leading-7 whitespace-pre",
         className,
       )}
     >

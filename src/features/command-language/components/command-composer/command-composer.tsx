@@ -1,6 +1,5 @@
 "use client";
 
-import { Search } from "lucide-react";
 import { useCallback, useRef, useState, type KeyboardEvent } from "react";
 import { Kbd, cn, toast } from "@/features/design-system";
 import { useConsole } from "@/features/console";
@@ -145,17 +144,14 @@ export function CommandComposer({ onClose }: { onClose?: () => void }) {
 
       <div
         className={cn(
-          "border-line bg-surface group flex h-11 items-center gap-3 rounded-full border pr-2 pl-4 transition-colors",
+          "bg-bg group flex h-14 items-center gap-3 rounded-2xl border px-4 transition-colors",
           focused
-            ? "border-line-strong ring-brand/25 ring-2"
-            : "hover:border-line-strong",
+            ? "border-brand/60 ring-brand/25 ring-2"
+            : "border-line hover:border-line-strong",
         )}
       >
-        <span className="text-ink-3 flex">
-          <Search size={14} />
-        </span>
-        <span className="border-line bg-surface-2 text-ink-2 flex items-center gap-1 rounded-full border px-2 py-0.5 font-mono text-[10px] tracking-[0.12em] uppercase">
-          {scopeLabel}
+        <span className="text-brand flex-none font-mono text-2xl leading-none font-semibold select-none">
+          ›
         </span>
 
         <div className="relative flex-1">
@@ -179,17 +175,20 @@ export function CommandComposer({ onClose }: { onClose?: () => void }) {
             placeholder="Tell the fleet what to do — or ask what happened…"
             spellCheck={false}
             autoComplete="off"
-            className="placeholder:text-ink-3 caret-brand relative w-full bg-transparent font-mono text-sm text-transparent placeholder:font-sans placeholder:text-sm focus:outline-none"
+            className="placeholder:text-ink-3 caret-brand relative w-full bg-transparent font-mono text-[17px] leading-7 text-transparent placeholder:font-sans placeholder:text-[15px] focus:outline-none"
           />
         </div>
 
+        <span className="border-line bg-surface-2 text-ink-2 hidden flex-none items-center gap-1 rounded-full border px-2.5 py-1 font-mono text-[10px] tracking-[0.12em] uppercase sm:flex">
+          {scopeLabel}
+        </span>
         <Kbd keys={["⌘", "K"]} />
         <button
           type="button"
           onClick={handleCommit}
           disabled={commitDisabled}
           className={cn(
-            "rounded-full px-3 py-1 font-mono text-[10px] font-semibold tracking-[0.12em] uppercase transition-opacity",
+            "flex-none rounded-xl px-4 py-2 font-mono text-[11px] font-semibold tracking-[0.12em] uppercase transition-opacity",
             commitDisabled
               ? "bg-elev text-ink-3 cursor-not-allowed"
               : "bg-brand text-bg hover:opacity-90",
