@@ -35,7 +35,8 @@ export function TimelineSpine() {
   const handleMarker = useCallback(
     (cluster: EventCluster) => {
       timeline.setPlayhead(cluster.timestamp, { mode: "scrubbing" });
-      setFocusedMoment(cluster.representative.id);
+      const incidentId = cluster.representative.incidentId;
+      if (incidentId) setFocusedMoment(incidentId);
     },
     [timeline, setFocusedMoment],
   );
