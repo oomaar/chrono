@@ -1,5 +1,6 @@
 export { CommandLanguageProvider, useCommandLanguage } from "./command-language.provider";
 export { CommandComposer } from "./components/command-composer/command-composer";
+export { CommandHints } from "./components/command-composer/command-hints";
 export { ExecuteCommandModal } from "./components/execute-command-modal";
 export { CommandHistoryPanel } from "./components/command-activity-section/command-history-panel";
 export { ScheduledCommandsPanel } from "./components/command-activity-section/scheduled-commands-panel";
