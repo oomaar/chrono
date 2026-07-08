@@ -1,14 +1,15 @@
 "use client";
 
 import { useConsole } from "../../console-provider";
+import { CommandActivitySection } from "./command-activity-section";
 import { FleetStats } from "./fleet-stats";
 import { NeedsSection } from "./needs-section";
 import { RecentMomentsPanel } from "./recent-moments-panel";
 
 /**
  * The default stage — the "Console" pane the operator lands on. Shows fleet
- * state reconstructed at the playhead + the actionable-moments list. Right
- * sidebar lists the surrounding events. Fully responsive.
+ * state reconstructed at the playhead + the actionable-moments list + command
+ * activity (history + scheduled). Right sidebar lists the surrounding events.
  */
 export function ConsoleStage() {
   const { timeline } = useConsole();
@@ -30,6 +31,7 @@ export function ConsoleStage() {
 
           <FleetStats />
           <NeedsSection />
+          <CommandActivitySection />
         </div>
       </div>
       <RecentMomentsPanel />
