@@ -35,8 +35,8 @@ export function SuggestionList({
   if (suggestions.length === 0) return null;
 
   return (
-    <div className="border-line bg-surface absolute bottom-full left-0 z-30 mb-2 w-full max-w-lg overflow-hidden rounded-xl border shadow-[0_16px_40px_rgba(0,0,0,0.4)]">
-      <ul ref={listRef} className="max-h-64 overflow-y-auto py-1">
+    <div className="border-line-strong bg-elev absolute bottom-full left-0 z-30 mb-2 w-full overflow-hidden rounded-xl border p-2 shadow-[0_16px_40px_rgba(0,0,0,0.4)]">
+      <ul ref={listRef} className="max-h-64 overflow-y-auto">
         {suggestions.map((suggestion, index) => (
           <li
             key={suggestion.id}
@@ -46,19 +46,19 @@ export function SuggestionList({
               onSelect(suggestion);
             }}
             className={cn(
-              "flex cursor-pointer items-center gap-3 px-3 py-1.5 text-xs transition-colors",
-              index === activeIndex && "bg-elev",
+              "flex cursor-pointer items-center gap-3 rounded-lg px-3 py-2 transition-colors",
+              index === activeIndex ? "bg-surface-2" : "hover:bg-surface-2/60",
             )}
           >
             <span
               className={cn(
-                "w-14 shrink-0 font-mono text-[10px] font-semibold tracking-[0.14em] uppercase",
+                "w-16 shrink-0 font-mono text-[9px] font-semibold tracking-[0.14em] uppercase",
                 kindClass[suggestion.kind],
               )}
             >
               {suggestion.kind}
             </span>
-            <span className="text-ink font-mono text-sm">{suggestion.label}</span>
+            <span className="text-ink font-mono text-[13px]">{suggestion.label}</span>
             {suggestion.description ? (
               <span className="text-ink-3 ml-auto text-[11px]">
                 {suggestion.description}
@@ -67,7 +67,7 @@ export function SuggestionList({
           </li>
         ))}
       </ul>
-      <div className="border-line-2 text-ink-3 flex items-center gap-3 border-t px-3 py-1.5 font-mono text-[10px] tracking-[0.14em] uppercase">
+      <div className="border-line-2 text-ink-3 mt-1 flex items-center gap-3 border-t px-2 pt-2 font-mono text-[10px] tracking-[0.14em] uppercase">
         <span>↑ ↓ navigate</span>
         <span>tab · ⏎ complete</span>
         <span>esc dismiss</span>

@@ -58,6 +58,7 @@ export const INCIDENT_BLUEPRINTS: IncidentBlueprint[] = [
         "Pushes the encryption profile and forces a key re-escrow. ~4 min, no user interruption, fully reversible.",
       confidence: 96,
       reversible: true,
+      command: "apply finance",
     },
   },
   {
@@ -122,6 +123,7 @@ export const INCIDENT_BLUEPRINTS: IncidentBlueprint[] = [
         "Manual review of the outbound signature is needed before returning the device to the network.",
       confidence: 62,
       reversible: true,
+      command: "release isolated",
     },
   },
   {
@@ -150,6 +152,7 @@ export const INCIDENT_BLUEPRINTS: IncidentBlueprint[] = [
       detail: "Force definition sync via management channel. 2 min per device.",
       confidence: 88,
       reversible: false,
+      command: "apply remote",
     },
   },
   {
@@ -196,6 +199,7 @@ export const INCIDENT_BLUEPRINTS: IncidentBlueprint[] = [
       detail: "Run manual backup cycle with integrity check. ~12 min per device.",
       confidence: 82,
       reversible: false,
+      command: "apply finance",
     },
   },
   {
@@ -224,6 +228,7 @@ export const INCIDENT_BLUEPRINTS: IncidentBlueprint[] = [
       detail: "Halt further devices until root cause is identified.",
       confidence: 91,
       reversible: true,
+      command: "notify platform",
     },
   },
   {
@@ -293,6 +298,7 @@ export const INCIDENT_BLUEPRINTS: IncidentBlueprint[] = [
       detail: "Schedule an automation retry for the next 6h.",
       confidence: 78,
       reversible: true,
+      command: "rotate executive in 6h",
     },
   },
 ];

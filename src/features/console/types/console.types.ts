@@ -7,7 +7,11 @@ export type ConsoleContextValue = {
   engine: LiveEngine;
   timeline: TimelineEngineApi;
   focusedMomentId: string | null;
+  focusedDeviceId: string | null;
+  currentStage: StagePane;
   setFocusedMoment: (id: string | null) => void;
+  setFocusedDevice: (id: string | null) => void;
+  returnToConsole: () => void;
 };
 
 export type NeedItem = {
