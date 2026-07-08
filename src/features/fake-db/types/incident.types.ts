@@ -18,6 +18,8 @@ export type IncidentRecommendation = {
   detail: string;
   confidence: number;
   reversible: boolean;
+  /** Optional canonical command to feed the composer when the user approves. */
+  command?: string;
 };
 
 export type Incident = {
