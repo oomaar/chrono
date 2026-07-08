@@ -16,7 +16,7 @@ export function RecentMomentsPanel() {
   const handleClick = useCallback(
     (event: TimelineEvent) => {
       timeline.setPlayhead(event.timestamp, { mode: "scrubbing" });
-      setFocusedMoment(event.id);
+      if (event.incidentId) setFocusedMoment(event.incidentId);
     },
     [timeline, setFocusedMoment],
   );
