@@ -8,7 +8,7 @@ import { useCommandLanguage } from "../../command-language.provider";
 import { useCommandParser } from "../../hooks/use-command-parser";
 import type { Suggestion } from "../../types/command-language.types";
 import { applySuggestion } from "../../utils/suggest";
-import { BlastRadiusPreview } from "../blast-radius-preview";
+import { BlastRadiusPreview } from "./blast-radius-preview";
 import { DryRunPreviewCard } from "./dry-run-preview";
 import { SuggestionList } from "./suggestion-list";
 import { SyntaxHighlightedOverlay } from "./syntax-highlighted-overlay";
