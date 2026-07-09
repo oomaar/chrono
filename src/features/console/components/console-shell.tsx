@@ -8,6 +8,7 @@ import { ConsoleProvider } from "../console-provider";
 import { AppLayout } from "./app-layout";
 import { CommandDock } from "./command-dock";
 import { ConsoleKeybinds } from "./console-keybinds";
+import { KeyboardShortcutsSheet } from "./keyboard-shortcuts-sheet";
 import { StageSwitcher } from "./stage/stage-switcher";
 import { TimelineSpine } from "./timeline-spine";
 import { TopRail } from "./top-rail/top-rail";
@@ -32,6 +33,7 @@ export function ConsoleShell() {
           dock={<CommandDock />}
         />
         <ExecuteCommandModal />
+        <KeyboardShortcutsSheet />
       </CommandLanguageProvider>
     </ConsoleProvider>
   );
