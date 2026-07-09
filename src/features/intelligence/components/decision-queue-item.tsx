@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { Badge, cn } from "@/features/design-system";
+import { AnimatedCounter, Badge, cn } from "@/features/design-system";
 import type { DecisionItem } from "../types/intelligence.types";
 import { AttentionBar } from "./attention-bar";
 import { ClusterBadge } from "./cluster-badge";
@@ -101,9 +101,10 @@ export function DecisionQueueItem({
           <span className="text-ink-3 font-mono text-[9px] tracking-[0.14em] uppercase">
             attention
           </span>
-          <span className="text-ink font-mono text-lg font-semibold tabular-nums">
-            {attention.total}
-          </span>
+          <AnimatedCounter
+            value={attention.total}
+            className="text-ink font-mono text-lg font-semibold tabular-nums"
+          />
         </div>
       </div>
 
