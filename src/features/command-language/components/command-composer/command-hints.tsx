@@ -13,7 +13,7 @@ const HINTS: Array<{ label: string; example: string }> = [
  */
 export function CommandHints() {
   return (
-    <div className="text-ink-3 flex flex-wrap gap-x-6 gap-y-2 pt-2 pl-2 text-[11px]">
+    <div className="text-ink-3 flex flex-wrap items-center gap-x-6 gap-y-2 pt-2 pl-2 text-[11px]">
       {HINTS.map((hint) => (
         <span key={hint.label}>
           <span className="text-brand font-medium">{hint.label}</span>
@@ -21,6 +21,9 @@ export function CommandHints() {
           <span className="text-ink-2 font-mono">{hint.example}</span>
         </span>
       ))}
+      <span className="text-ink-3 ml-auto font-mono text-[10px] tracking-[0.14em] uppercase">
+        press <span className="text-ink-2">?</span> for shortcuts
+      </span>
     </div>
   );
 }

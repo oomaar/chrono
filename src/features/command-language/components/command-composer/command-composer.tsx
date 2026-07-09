@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState, type KeyboardEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { Kbd, cn, toast } from "@/features/design-system";
 import { useConsole } from "@/features/console";
 import { useCommandLanguage } from "../../command-language.provider";
@@ -18,6 +18,9 @@ import { ValidationMessages } from "./validation-messages";
  * overlay, ranks context-sensitive suggestions above it, and renders live
  * preview cards (blast radius + dry-run) below. Pressing Enter commits the
  * plan through the executor.
+ *
+ * Binds ⌘K globally to steal focus from any surface, following the
+ * command-first ethos: the composer is always one keystroke away.
  */
 export function CommandComposer({ onClose }: { onClose?: () => void }) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -26,10 +29,24 @@ export function CommandComposer({ onClose }: { onClose?: () => void }) {
   const [cursor, setCursor] = useState(0);
   const [focused, setFocused] = useState(false);
   const [activeSuggestion, setActiveSuggestion] = useState(0);
+  const [commitFlash, setCommitFlash] = useState(false);
 
   const { timeline } = useConsole();
   const { execute } = useCommandLanguage();
   const parsed = useCommandParser(input, cursor);
+
+  // ⌘K / Ctrl-K → focus composer from anywhere.
+  useEffect(() => {
+    const handler = (event: globalThis.KeyboardEvent) => {
+      const cmdK = (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k";
+      if (!cmdK) return;
+      event.preventDefault();
+      inputRef.current?.focus();
+      inputRef.current?.select();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   const applyAndFocus = useCallback(
     (suggestion: Suggestion) => {
@@ -65,6 +82,10 @@ export function CommandComposer({ onClose }: { onClose?: () => void }) {
     setInput("");
     setCursor(0);
     setActiveSuggestion(0);
+    // Trigger a one-shot commit flash. Cleared via inline setTimeout —
+    // valid because it fires from the timer callback, not the render body.
+    setCommitFlash(true);
+    window.setTimeout(() => setCommitFlash(false), 640);
     onClose?.();
   }, [execute, onClose, parsed.plan]);
 
@@ -144,13 +165,21 @@ export function CommandComposer({ onClose }: { onClose?: () => void }) {
 
       <div
         className={cn(
-          "bg-bg group flex h-14 items-center gap-3 rounded-2xl border px-4 transition-colors",
+          "bg-bg group relative flex h-14 items-center gap-3 overflow-hidden rounded-2xl border px-4 transition-colors",
           focused
             ? "border-brand/60 ring-brand/25 ring-2"
             : "border-line hover:border-line-strong",
+          commitFlash && "border-brand ring-brand/50 ring-2",
         )}
       >
-        <span className="text-brand flex-none font-mono text-2xl leading-none font-semibold select-none">
+        <span
+          aria-hidden
+          className={cn(
+            "bg-brand/25 pointer-events-none absolute inset-0 rounded-2xl transition-opacity",
+            commitFlash ? "opacity-100 duration-100" : "opacity-0 duration-500",
+          )}
+        />
+        <span className="text-brand relative flex-none font-mono text-2xl leading-none font-semibold select-none">
           ›
         </span>
 
