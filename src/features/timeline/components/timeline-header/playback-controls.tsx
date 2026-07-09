@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight, Pause, Play, SkipBack } from "lucide-react";
+import { motion } from "motion/react";
 import { cn } from "@/features/design-system";
 import type { TimelineMode } from "../../types/timeline.types";
 
@@ -40,9 +41,30 @@ export function PlaybackControls({
         type="button"
         onClick={isPlaying ? onPause : onPlay}
         aria-label={isPlaying ? "Pause playback" : "Start playback"}
-        className={cn(buttonBase, isPlaying && "border-brand/40 bg-brand/10 text-brand")}
+        className={cn(
+          buttonBase,
+          "relative",
+          isPlaying && "border-brand/40 bg-brand/10 text-brand",
+        )}
       >
-        {isPlaying ? <Pause size={13} /> : <Play size={13} />}
+        {isPlaying ? (
+          <>
+            <motion.span
+              aria-hidden
+              className="border-brand/30 pointer-events-none absolute inset-0 rounded-md border"
+              initial={{ scale: 1, opacity: 0.6 }}
+              animate={{ scale: 1.5, opacity: 0 }}
+              transition={{
+                duration: 1.6,
+                repeat: Infinity,
+                ease: "easeOut",
+              }}
+            />
+            <Pause size={13} />
+          </>
+        ) : (
+          <Play size={13} />
+        )}
       </button>
       <button
         type="button"
