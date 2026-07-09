@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "motion/react";
 import { cn } from "@/features/design-system";
 import type { IncidentChainStep } from "@/features/fake-db";
 
@@ -19,7 +22,8 @@ const borderToneClass: Record<IncidentChainStep["tone"], string> = {
 
 /**
  * Horizontal causal chain — TRIGGER → SIDE EFFECT → NOW — with arrow
- * separators between steps, matching the wireframe.
+ * separators between steps. Cards stagger in on mount so the operator's eye
+ * follows the causal path left-to-right as the story unfolds.
  */
 export function CausalChain({ steps }: { steps: IncidentChainStep[] }) {
   if (steps.length === 0) return null;
@@ -34,7 +38,14 @@ export function CausalChain({ steps }: { steps: IncidentChainStep[] }) {
           const isLast = index === steps.length - 1;
           return (
             <div key={index} className="flex flex-1 items-stretch gap-0 md:items-center">
-              <div
+              <motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{
+                  duration: 0.32,
+                  ease: [0.2, 0.7, 0.3, 1],
+                  delay: index * 0.09,
+                }}
                 className={cn(
                   "border-line bg-surface flex-1 rounded-xl border border-l-[3px] p-4",
                   borderToneClass[step.tone],
@@ -49,14 +60,21 @@ export function CausalChain({ steps }: { steps: IncidentChainStep[] }) {
                   {step.label}
                 </p>
                 <p className="text-ink mt-2 text-xs leading-relaxed">{step.text}</p>
-              </div>
+              </motion.div>
               {!isLast ? (
-                <span
+                <motion.span
                   aria-hidden
+                  initial={{ opacity: 0, x: -4 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    duration: 0.24,
+                    ease: [0.2, 0.7, 0.3, 1],
+                    delay: index * 0.09 + 0.14,
+                  }}
                   className="text-ink-3 hidden flex-none px-3 font-mono text-sm md:block"
                 >
                   →
-                </span>
+                </motion.span>
               ) : null}
             </div>
           );

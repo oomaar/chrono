@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "motion/react";
 import { useMemo } from "react";
 import { cn } from "@/features/design-system";
 import type { LiveEngine, TimeWindow, TimelineEvent } from "@/features/fake-db";
@@ -65,8 +66,17 @@ export function EventsBetween({ engine, pinA, pinB, onInvestigate }: EventsBetwe
         </div>
       ) : (
         <ul className="flex flex-col gap-2">
-          {events.map((event) => (
-            <li key={event.id}>
+          {events.map((event, index) => (
+            <motion.li
+              key={event.id}
+              initial={{ opacity: 0, x: -8 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{
+                duration: 0.28,
+                ease: [0.2, 0.7, 0.3, 1],
+                delay: Math.min(index * 0.035, 0.42),
+              }}
+            >
               <button
                 type="button"
                 onClick={() => onInvestigate(event)}
@@ -86,7 +96,7 @@ export function EventsBetween({ engine, pinA, pinB, onInvestigate }: EventsBetwe
                   investigate →
                 </span>
               </button>
-            </li>
+            </motion.li>
           ))}
         </ul>
       )}
