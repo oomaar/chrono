@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion } from "motion/react";
 import { useCallback } from "react";
 import type { TimelineEvent } from "@/features/fake-db";
 import { useConsole } from "../../console-provider";
@@ -7,7 +8,9 @@ import { useRecentMoments } from "../../hooks/use-recent-moments";
 import { RecentMomentItemRow } from "./recent-moment-item";
 
 /**
- * Right sidebar list — recent timeline events near the current playhead.
+ * Right sidebar list — recent timeline events near the playhead. Newly
+ * arrived items slide in from the top with a brief brand-tinted "fresh"
+ * halo courtesy of `AnimatePresence`, so activity feels alive.
  */
 export function RecentMomentsPanel() {
   const items = useRecentMoments(12);
@@ -35,13 +38,32 @@ export function RecentMomentsPanel() {
               No events near the playhead.
             </p>
           ) : (
-            items.map((item) => (
-              <RecentMomentItemRow
-                key={item.event.id}
-                item={item}
-                onClick={handleClick}
-              />
-            ))
+            <AnimatePresence initial={false}>
+              {items.map((item) => (
+                <motion.div
+                  key={item.event.id}
+                  layout
+                  initial={{
+                    opacity: 0,
+                    y: -12,
+                    backgroundColor: "rgba(198, 242, 78, 0.14)",
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                    backgroundColor: "rgba(198, 242, 78, 0)",
+                  }}
+                  exit={{ opacity: 0, y: 6 }}
+                  transition={{
+                    opacity: { duration: 0.24 },
+                    y: { type: "spring", stiffness: 320, damping: 28 },
+                    backgroundColor: { duration: 1.2, delay: 0.18 },
+                  }}
+                >
+                  <RecentMomentItemRow item={item} onClick={handleClick} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           )}
         </div>
       </div>

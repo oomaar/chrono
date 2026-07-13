@@ -1,4 +1,4 @@
-import { cn } from "@/features/design-system";
+import { AnimatedCounter, cn } from "@/features/design-system";
 
 type FleetStatTileProps = {
   value: number;
@@ -28,14 +28,13 @@ export function FleetStatTile({
         emphasis ? "border-line-strong bg-elev" : "border-line bg-surface",
       )}
     >
-      <p
+      <AnimatedCounter
+        value={value}
         className={cn(
           "font-mono text-3xl font-semibold tracking-tight tabular-nums sm:text-[34px]",
           toneClass[tone],
         )}
-      >
-        {value.toLocaleString()}
-      </p>
+      />
       <p className="text-ink-3 mt-1 text-xs">{label}</p>
     </div>
   );

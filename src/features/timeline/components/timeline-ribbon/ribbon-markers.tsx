@@ -42,6 +42,8 @@ export function RibbonMarkers({ clusters, onMarkerClick }: RibbonMarkersProps) {
               initial={{ opacity: 0, scale: 0.6 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.6 }}
+              whileHover={{ scale: 1.35 }}
+              whileTap={{ scale: 0.85 }}
               transition={{
                 type: "spring",
                 stiffness: 320,

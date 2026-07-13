@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useMemo } from "react";
 import { Button, cn, toast } from "@/features/design-system";
 import type { Device, TimelineEvent } from "@/features/fake-db";
@@ -89,14 +90,21 @@ export function DeviceStage() {
               {device.model.name}
             </p>
           </div>
-          <span
-            className={cn(
-              "rounded-full border px-2.5 py-1 font-mono text-[10px] tracking-[0.14em] uppercase",
-              statusPillClass[device.status],
-            )}
-          >
-            {device.status}
-          </span>
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.span
+              key={device.status}
+              initial={{ opacity: 0, y: -4, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 4, scale: 0.9 }}
+              transition={{ type: "spring", stiffness: 360, damping: 26 }}
+              className={cn(
+                "rounded-full border px-2.5 py-1 font-mono text-[10px] tracking-[0.14em] uppercase",
+                statusPillClass[device.status],
+              )}
+            >
+              {device.status}
+            </motion.span>
+          </AnimatePresence>
         </header>
 
         <div className="space-y-2">
