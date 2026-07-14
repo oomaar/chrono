@@ -2,8 +2,9 @@
 
 import { motion } from "motion/react";
 import { useMemo } from "react";
-import { cn } from "@/features/design-system";
+import { EmptyState, cn } from "@/features/design-system";
 import type { LiveEngine, TimeWindow, TimelineEvent } from "@/features/fake-db";
+import { EmptyTimeline } from "@/features/illustrations";
 
 const toneDotClass: Record<TimelineEvent["tone"], string> = {
   crit: "bg-crit",
@@ -61,9 +62,11 @@ export function EventsBetween({ engine, pinA, pinB, onInvestigate }: EventsBetwe
         Events between A and B · {events.length}
       </p>
       {events.length === 0 ? (
-        <div className="border-line-strong text-ink-3 rounded-xl border border-dashed p-6 text-center text-xs">
-          No timeline events landed between these two moments.
-        </div>
+        <EmptyState
+          illustration={<EmptyTimeline className="text-ink-3 h-20 w-auto" />}
+          title="Nothing happened between these moments"
+          description="Try pinning a wider span, or investigate one of the pins individually."
+        />
       ) : (
         <ul className="flex flex-col gap-2">
           {events.map((event, index) => (

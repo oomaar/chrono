@@ -1,9 +1,10 @@
 "use client";
 
 import { useMemo } from "react";
-import { cn } from "@/features/design-system";
+import { EmptyState, cn } from "@/features/design-system";
 import { differenceInMinutes } from "@/features/fake-db";
 import type { TimelineEvent } from "@/features/fake-db";
+import { EmptyTimeline } from "@/features/illustrations";
 import { useConsole } from "../../../console-provider";
 
 const toneDotClass: Record<TimelineEvent["tone"], string> = {
@@ -42,9 +43,11 @@ export function DeviceHistory({ deviceId }: { deviceId: string }) {
         Timeline · last 24h · {events.length} events
       </p>
       {events.length === 0 ? (
-        <div className="border-line-strong text-ink-3 rounded-xl border border-dashed p-6 text-center text-xs">
-          No events touched this device in the last 24 hours.
-        </div>
+        <EmptyState
+          illustration={<EmptyTimeline className="text-ink-3 h-20 w-auto" />}
+          title="Quiet device"
+          description="Nothing touched this device in the last 24 hours."
+        />
       ) : (
         <ul className="border-line divide-line-2 divide-y rounded-xl border">
           {events.map((event) => (
