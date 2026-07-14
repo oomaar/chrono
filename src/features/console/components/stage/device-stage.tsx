@@ -67,7 +67,7 @@ export function DeviceStage() {
   const office = db.offices.find((o) => o.id === device.officeId) ?? null;
 
   return (
-    <div className="h-full min-h-0 overflow-y-auto">
+    <div className="min-h-0 lg:h-full lg:overflow-y-auto">
       <div className="mx-auto max-w-5xl space-y-5 px-5 py-6 sm:px-8 sm:py-8">
         <button
           type="button"

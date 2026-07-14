@@ -52,7 +52,7 @@ export function CompareStage() {
   }
 
   return (
-    <div className="h-full min-h-0 overflow-y-auto">
+    <div className="min-h-0 lg:h-full lg:overflow-y-auto">
       <div className="mx-auto max-w-5xl space-y-6 px-5 py-8 sm:px-8">
         <p className="text-ink-3 text-center font-mono text-[10px] font-semibold tracking-[0.14em] uppercase">
           What changed · comparing two moments on one fleet
@@ -81,7 +81,7 @@ export function CompareStage() {
         />
 
         <p className="text-ink-3 border-line-2 border-t pt-4 text-center font-mono text-[10px] tracking-[0.14em] uppercase">
-          delta is B − A · green = improvement · red = regression · clear pins in the pin
+          delta is B - A · green = improvement · red = regression · clear pins in the pin
           bar to exit
         </p>
       </div>

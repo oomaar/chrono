@@ -81,7 +81,7 @@ export function PlaybackControls({
         aria-label="Return to now"
         className={cn(
           buttonBase,
-          "gap-1 px-2 text-[10px] font-semibold tracking-[0.14em] uppercase",
+          "w-auto min-w-fit gap-1.5 px-2.5 text-[10px] font-semibold tracking-[0.14em] uppercase",
         )}
       >
         <SkipBack size={11} />
