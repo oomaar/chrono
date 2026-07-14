@@ -26,6 +26,10 @@ export function LiveClock() {
       <button
         type="button"
         onClick={() => (isLive ? timeline.pause() : timeline.returnToNow())}
+        aria-pressed={isLive}
+        aria-label={
+          isLive ? "Live mode active — click to pause" : "Paused — click to return to now"
+        }
         className={cn(
           "inline-flex h-7 items-center gap-2 rounded-full border px-3 transition-colors",
           isLive
@@ -78,7 +82,11 @@ export function LiveClock() {
           className="text-ink-2 font-mono text-[10px] tracking-widest tabular-nums"
         />
       </button>
-      <span className="text-ink-2 hidden font-mono text-xs tabular-nums sm:inline">
+      <span
+        className="text-ink-2 hidden font-mono text-xs tabular-nums sm:inline"
+        aria-live="off"
+        aria-label={`Simulated clock ${clockLabel} UTC`}
+      >
         {clockLabel}
         <span className="text-ink-3"> UTC</span>
       </span>
