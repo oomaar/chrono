@@ -117,9 +117,14 @@ export const useTimelineEngine = ({
   );
 
   const play = useCallback(() => {
+    // "Play" from a paused state returns us to live — the playhead re-syncs
+    // to `now` and events stream in again. Without this, `mode` would flip
+    // to "playback" but `effectivePlayhead` would stay frozen at the paused
+    // timestamp, so the app appeared to freeze on resume.
     if (!engine.clock.isRunning()) engine.clock.start();
-    setMode("playback");
-  }, [engine.clock]);
+    setPlayheadState(now);
+    setMode("live");
+  }, [engine.clock, now]);
 
   const pause = useCallback(() => {
     engine.clock.stop();
@@ -151,9 +156,12 @@ export const useTimelineEngine = ({
   );
 
   const returnToNow = useCallback(() => {
+    // If the operator paused earlier, the clock is stopped and `now` is
+    // frozen — restart it so live mode is actually live.
+    if (!engine.clock.isRunning()) engine.clock.start();
     setPlayheadState(now);
     setMode("live");
-  }, [now]);
+  }, [engine.clock, now]);
 
   const pinAt = useCallback((slot: PinSlot, timestamp: string) => {
     setPinsState((current) => ({ ...current, [slot]: timestamp }));
