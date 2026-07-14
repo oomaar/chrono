@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowLeft } from "lucide-react";
 import { useMemo } from "react";
 import { Button, toast } from "@/features/design-system";
 import { differenceInMinutes } from "@/features/fake-db";
@@ -33,7 +34,8 @@ const severityKicker: Record<Incident["severity"], string> = {
  * strip so operators can pivot from one signal to the group.
  */
 export function InvestigateStage() {
-  const { db, focusedMomentId, timeline, setFocusedMoment } = useConsole();
+  const { db, focusedMomentId, timeline, setFocusedMoment, returnToConsole } =
+    useConsole();
   const { openExecute } = useCommandLanguage();
   const { clusters } = useIntelligence();
 
@@ -52,8 +54,8 @@ export function InvestigateStage() {
   const timeOffset = Math.abs(differenceInMinutes(incident.openedAt, timeline.now));
   const timeLabel =
     timeOffset < 60
-      ? `−${Math.round(timeOffset)}m from now`
-      : `−${(timeOffset / 60).toFixed(1)}h from now`;
+      ? `-${Math.round(timeOffset)}m from now`
+      : `-${(timeOffset / 60).toFixed(1)}h from now`;
 
   const handleApprove = () => {
     if (!incident.recommendation?.command) {
@@ -76,8 +78,17 @@ export function InvestigateStage() {
   };
 
   return (
-    <div className="h-full min-h-0 overflow-y-auto">
+    <div className="min-h-0 lg:h-full lg:overflow-y-auto">
       <div className="mx-auto max-w-5xl space-y-6 px-5 py-6 sm:px-8 sm:py-8">
+        <button
+          type="button"
+          onClick={returnToConsole}
+          aria-label="Back to console"
+          className="text-ink-3 hover:text-ink focus-visible:ring-brand/40 border-line hover:border-line-strong -ml-1 inline-flex h-8 w-8 items-center justify-center rounded-full border transition-colors focus-visible:ring-2 focus-visible:outline-none active:scale-95"
+        >
+          <ArrowLeft size={14} />
+        </button>
+
         <div className="flex flex-wrap items-center gap-3">
           <p className="text-ink-3 font-mono text-[10px] font-semibold tracking-[0.14em] uppercase">
             What happened · {timeLabel}
