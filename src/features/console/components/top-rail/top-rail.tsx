@@ -8,8 +8,8 @@ import { UserAvatarChip } from "./user-avatar-chip";
 
 /**
  * The top rail — 52px header with brand, mode statement, LIVE pill + clock,
- * and the user avatar. The mode statement is a *time* statement, never a page
- * breadcrumb.
+ * theme toggle, and the user avatar. The mode statement is a *time*
+ * statement, never a page breadcrumb.
  */
 export function TopRail() {
   return (

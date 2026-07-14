@@ -1,5 +1,6 @@
 "use client";
 
+import { memo } from "react";
 import { cn } from "@/features/design-system";
 import type { RecentMomentItem } from "../../types/console.types";
 
@@ -24,7 +25,12 @@ type RecentMomentItemRowProps = {
   onClick: (event: RecentMomentItem["event"]) => void;
 };
 
-export function RecentMomentItemRow({ item, onClick }: RecentMomentItemRowProps) {
+/**
+ * One row in the recent moments feed. Memoized because the list re-renders on
+ * every clock tick — most rows don't actually change between ticks, only the
+ * age labels drift and only the newest row's item ref changes.
+ */
+function RecentMomentItemRowBase({ item, onClick }: RecentMomentItemRowProps) {
   return (
     <button
       type="button"
@@ -46,3 +52,5 @@ export function RecentMomentItemRow({ item, onClick }: RecentMomentItemRowProps)
     </button>
   );
 }
+
+export const RecentMomentItemRow = memo(RecentMomentItemRowBase);

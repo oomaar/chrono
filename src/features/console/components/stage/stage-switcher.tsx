@@ -32,7 +32,7 @@ export function StageSwitcher() {
   const Pane = paneMap[currentStage];
 
   return (
-    <div className="relative h-full min-h-0">
+    <div className="relative min-h-0 lg:h-full">
       <AnimatePresence initial={false} mode="wait">
         <motion.div
           key={currentStage}
@@ -48,7 +48,7 @@ export function StageSwitcher() {
             scale: isDetail ? 1.01 : 0.99,
           }}
           transition={transition}
-          className="absolute inset-0"
+          className="lg:absolute lg:inset-0"
         >
           <Pane />
         </motion.div>

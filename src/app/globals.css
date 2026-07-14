@@ -204,3 +204,20 @@ body {
 @utility animate-pulse-ring {
   animation: ds-pulse-ring 2s cubic-bezier(0.2, 0.7, 0.3, 1) infinite;
 }
+
+/* ----------------------------------------------------------------------------
+ * Accessibility: respect prefers-reduced-motion.
+ * Disables all custom keyframe animations + Tailwind transition-* utilities
+ * so users who have opted out of motion never see it. Framer components
+ * automatically respect this preference via useReducedMotion.
+ * -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
