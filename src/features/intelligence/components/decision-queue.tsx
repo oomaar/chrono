@@ -2,6 +2,7 @@
 
 import { AnimatePresence } from "motion/react";
 import { EmptyState } from "@/features/design-system";
+import { TimelineScan } from "@/features/illustrations";
 import type { DecisionItem } from "../types/intelligence.types";
 import { DecisionQueueItem } from "./decision-queue-item";
 
@@ -12,10 +13,9 @@ type DecisionQueueProps = {
 };
 
 /**
- * Attention-ranked list of moments that need a decision. Replaces the flat
- * "needs" section — each item shows its computed attention score, its
- * cluster membership (if any), and one-click approval when a canonical
- * command is available.
+ * Attention-ranked list of moments that need a decision. Each item shows its
+ * computed attention score, its cluster membership (if any), a confidence
+ * meter, and one-click approval when a canonical command is available.
  */
 export function DecisionQueue({
   decisions,
@@ -28,6 +28,7 @@ export function DecisionQueue({
         kicker="All clear"
         title="No moments need a decision right now."
         description="Automation is handling the fleet. Scrub the timeline to look back."
+        illustration={<TimelineScan className="text-brand h-28 w-auto" />}
       />
     );
   }
