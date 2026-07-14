@@ -11,14 +11,15 @@ import {
   type NextAction,
 } from "@/features/intelligence";
 import { useConsole } from "../../console-provider";
-import { CommandActivitySection } from "./command-activity-section";
+import { ActivitySidebar } from "./activity-sidebar";
 import { FleetStats } from "./fleet-stats";
-import { RecentMomentsPanel } from "./recent-moments-panel";
 
 /**
  * The default "Console" pane. Blends the fleet snapshot with the intelligence
- * layer: smart summary at the top, ranked decision queue, and proactive next
- * actions. Right sidebar keeps the recent-moments feed.
+ * layer: smart summary at the top, ranked decision queue, proactive next
+ * actions. The right column is a tabbed activity sidebar — recent moments,
+ * command history, and scheduled commands live there together so the
+ * "commit → see it land" feedback loop stays visible without scrolling.
  */
 export function ConsoleStage() {
   const { setFocusedMoment, timeline } = useConsole();
@@ -58,13 +59,12 @@ export function ConsoleStage() {
   );
 
   return (
-    <div className="flex h-full min-h-0 flex-col lg:flex-row">
-      <div className="min-h-0 flex-1 overflow-y-auto">
+    <div className="flex min-h-0 flex-col lg:h-full lg:flex-row">
+      <div className="min-h-0 flex-1 lg:overflow-y-auto">
         <div className="mx-auto max-w-3xl space-y-8 px-5 py-6 sm:px-8 sm:py-8">
           <SmartSummaryCard summary={summary} />
-
           <FleetStats />
-
+          <NextActionsRail actions={nextActions} onSelect={handleNextAction} />
           <section className="space-y-4">
             <header className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
               <h2 className="text-ink text-sm font-semibold tracking-tight">
@@ -85,13 +85,9 @@ export function ConsoleStage() {
               onApprove={handleApprove}
             />
           </section>
-
-          <NextActionsRail actions={nextActions} onSelect={handleNextAction} />
-
-          <CommandActivitySection />
         </div>
       </div>
-      <RecentMomentsPanel />
+      <ActivitySidebar />
     </div>
   );
 }
